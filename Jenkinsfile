@@ -32,7 +32,7 @@ pipeline {
         stage('归档构建产物') {
             steps {
                 archiveArtifacts artifacts: "${BUILD_OUTPUT_DIR}/*.jar", fingerprint: true
-                echo "打包完成，Jar包已归档到Jenkins任务产物中"
+                echo "打包完成，Jar包已归档到Jenkins任务产物中,cheer!"
             }
         }
     }
