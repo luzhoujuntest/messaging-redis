@@ -39,6 +39,7 @@ pipeline {
         }
         stage('构建 Docker 镜像') {
                         steps {
+                           echo "Docker,starting!"
                             script {
                                 // 3. Docker 负责封装
                                 // 注意：这里的 '.' 表示当前目录，Docker 会读取当前目录下的 Dockerfile
