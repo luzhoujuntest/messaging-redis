@@ -9,7 +9,9 @@ pipeline {
     environment {
         // 指定构建产物输出目录，也可以自定义
         BUILD_OUTPUT_DIR = 'target'
-    }
+        DOCKER_IMAGE_NAME = "messaging-redis"
+        DOCKER_IMAGE_TAG = "${env.BUILD_NUMBER}"
+        }
     stages {
         stage('拉取代码') {
             steps {
@@ -36,6 +38,19 @@ pipeline {
             }
         }
     }
+        stage('构建 Docker 镜像') {
+                steps {
+                    script {
+                        // 3. Docker 负责封装
+                        // 注意：这里的 '.' 表示当前目录，Docker 会读取当前目录下的 Dockerfile
+                        // 并且由于 Dockerfile 中写了 COPY target/*.jar，所以 target 目录必须在构建上下文中
+                        sh """
+                            docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .
+                        """
+                    }
+                }
+            }
+
     post {
         success {
             echo "messaging-redis 项目 Pipeline 打包全部流程执行成功"
